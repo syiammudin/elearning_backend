@@ -26,13 +26,13 @@ class AttachmentController extends Controller
         $size = $request->file->getSize();
         $mime = $request->file->extension();
 
-        $path = $request->file('file')->move('Upload/' . $request->type, $fileName);
+        $path = $request->file('file')->move('public/upload/' . $request->type, $fileName);
 
         $data = [
             'user_id' => auth()->id(),
             'url' => url($path),
             'name' => $name,
-            'path' => 'Upload/' . $request->type . $fileName,
+            'path' => 'upload/' . $request->type . $fileName,
             'size' => $size,
             'mime' => $mime,
         ];
@@ -83,5 +83,16 @@ class AttachmentController extends Controller
         if ($attachment) {
             return response()->download(storage_path('/app/' . $attachment->path), $attachment->name);
         }
+    }
+
+    public function uploadCkEditor(Request $request)
+    {
+
+        $request->validate(['upload' => 'required|mimes:jpg,jpeg,png,docx,pdf,xls,xlsx,doc|max:25000']);
+        $fileName = date('ymd_His_') . str_replace(' ', '_', $request->upload->getClientOriginalName());
+
+        $path = $request->file('upload')->move('CkEditor/',  $fileName);
+
+        return ['url' => url('CkEditor/' . $fileName)];
     }
 }

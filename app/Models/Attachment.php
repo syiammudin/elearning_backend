@@ -32,6 +32,6 @@ class Attachment extends Model
 
     public function getUrlAttribute()
     {
-        return url($this->path);
+        return url('public/' . $this->path);
     }
 }

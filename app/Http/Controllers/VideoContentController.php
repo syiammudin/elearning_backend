@@ -33,7 +33,7 @@ class VideoContentController extends Controller
                 'descryption' => $request->description,
                 'tag' => $datafix->category ? $datafix->category->name : $request->type,
                 'title' => $request->title,
-                'url' => env('APP_URL'),
+                'url' => env('SANCTUM_STATEFUL_DOMAINS') . '/video/' . $data->id,
             ];
             $data->SearchBox()->create($sb);
             $data->History()->create($request->all());
@@ -59,7 +59,7 @@ class VideoContentController extends Controller
 
                 $attachment = [
                     'name' => $request->attachment['name'],
-                    'url' => $request->attachment['url'],
+                    'path' => $request->attachment['path'],
                     'size' => $request->attachment['size'],
                     'mime' => $request->attachment['mime'],
                 ];
