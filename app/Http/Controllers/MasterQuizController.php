@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterQuiz;
+use App\Models\MasterQuizQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -10,8 +11,11 @@ class MasterQuizController extends Controller
 {
     public function index(Request $request)
     {
-        $data = MasterQuiz::with('MasterQuizQuestion');
-
+        $data = MasterQuiz::with(['User', 'MasterQuizQuestion'])->when($request->search, function ($q) use ($request) {
+            $q->where(function ($q) use ($request) {
+                $q->where('subject', 'like', "%{$request->search}%");
+            });
+        });
         return $data->paginate();
     }
 
@@ -19,9 +23,12 @@ class MasterQuizController extends Controller
     public function store(Request $request)
     {
         $data = DB::transaction(function () use ($request) {
+            $request['user_id'] = auth()->user()->id;
             $data = MasterQuiz::create($request->all());
-            if ($request->master_quiz_quistion) {
-                $data->MasterQuizQuestion()->createMany($request->master_quiz_quistion);
+            if ($request->master_quiz_question) {
+                foreach ($request->master_quiz_question as $value) {
+                    $data->MasterQuizQuestion()->create($value);
+                }
             }
 
             return $data;
@@ -41,10 +48,17 @@ class MasterQuizController extends Controller
         $data = DB::transaction(function () use ($request, $masterQuiz) {
 
             $masterQuiz->update($request->all());
-            if ($request->master_quiz_quistion) {
-                foreach ($request->master_quiz_quistion as $value) {
-                    if ($value->id) {
-                        $masterQuiz->MasterQuizQuestion()->update($value);
+            if ($request->master_quiz_question) {
+                foreach ($request->master_quiz_question as $value) {
+                    if (isset($value['id'])) {
+                        $data['choices'] = $value['choices'];
+                        $data['correct_answer'] = $value['correct_answer'];
+                        $data['mime'] = $value['mime'];
+                        $data['name'] = $value['name'];
+                        $data['path'] = $value['path'];
+                        $data['question'] = $value['question'];
+                        $data['size'] = $value['size'];
+                        MasterQuizQuestion::find($value['id'])->update($data);
                     } else {
                         $masterQuiz->MasterQuizQuestion()->create($value);
                     }

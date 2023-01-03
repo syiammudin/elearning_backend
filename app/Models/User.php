@@ -2,25 +2,21 @@
 
 namespace App\Models;
 
-use App\Enums\UserRole;
 use App\Traits\Uuid;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Uuid;
+    use HasApiTokens, HasFactory, Notifiable, Uuid, SoftDeletes;
     public $incrementing = false;
     protected $keyTape = 'uuid';
-    protected $userRole;
 
-    public function __construct()
-    {
-        $this->userRole = new UserRole();
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -80,10 +76,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    const USER               = 0;
+    const ADMIN              = 10;
+    const SUPERADMIN         = 99;
+
+    public function alias($data)
+    {
+        switch ($data) {
+            case '10':
+                return 'ADMIN';
+                break;
+            case '99':
+                return 'SUPERADMIN';
+                break;
+
+            default:
+                return 'USER';
+                break;
+        }
+    }
 
     public function getRoleNameAttribute()
     {
-        return $this->userRole->alias($this->role);
+        return $this->alias($this->role);
     }
 
     public function setPasswordAttribute($password)

@@ -51,10 +51,10 @@
           <el-form-item label="Kelas">
             <el-select v-model="formData.kelas" placeholder="Kelas">
               <el-option
-                v-for="item in Kelas"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in kelasList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
               >
               </el-option>
             </el-select>
@@ -146,7 +146,10 @@ export default {
     formData: { type: Object },
   },
   computed: {
-    ...mapState(["roleList", "Kelas"]),
+    ...mapState(["roleList", "kelasList"]),
+  },
+  created() {
+    this.$store.dispatch("fetchKelas");
   },
   mixins: [crud],
 

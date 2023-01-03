@@ -51,6 +51,8 @@ export default {
       el.multiple = true;
       if (this.type == "video/") {
         el.accept = ".mp4,.mov";
+      } else if ("Quiz") {
+        el.accept = ".jpg,.jpeg,.mp4,.mov";
       } else {
         el.accept = ".jpg,.jpeg";
       }

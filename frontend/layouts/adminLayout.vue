@@ -47,6 +47,7 @@ export default {
         { title: "Quiz", to: "/admin/quiz", icon: "el-icon-menu" },
         { title: "User", to: "/admin/user", icon: "el-icon-user" },
         { title: "Category", to: "/admin/category", icon: "el-icon-user" },
+        { title: "Kelas", to: "/admin/kelas", icon: "el-icon-user" },
       ],
     };
   },

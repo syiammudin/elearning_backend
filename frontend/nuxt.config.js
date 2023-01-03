@@ -53,7 +53,7 @@ export default {
     locales: ['id']
   }, 
   axios: {
-    baseURL:  process.env.BACKEND_URL || 'http://localhost:81',
+    baseURL:  process.env.BACKEND_URL || 'http://localhost:8000',
     credentials: true,
   },
 
@@ -61,7 +61,7 @@ export default {
     strategies: {
       'laravelSanctum': {
         provider: 'laravel/sanctum',
-        url:  process.env.BACKEND_URL || 'http://localhost:81',
+        url:  process.env.BACKEND_URL || 'http://localhost:8000',
         endpoints: {
           login: { url: '/api/login' },
           logout: { url: '/api/logout' },
@@ -74,5 +74,6 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/],
+    postcss: null,
   },
 }

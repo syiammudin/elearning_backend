@@ -81,8 +81,9 @@ class VideoContent extends Model
 
     public function getUrlAttribute()
     {
-        return url($this->path);
+        return env('APP_URL') . '/public/' . $this->path;
     }
+
     public function getClassAttribute()
     {
         return VideoContent::class;

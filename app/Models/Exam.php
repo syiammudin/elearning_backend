@@ -19,6 +19,10 @@ class Exam extends Model
         'max_attempt',
         'total_quizzes',
         'passing_grade',
+        'score',
+        'passed',
+        'status',
+        'cuntdown_time',
     ];
 
     public function MasterQuiz()
@@ -33,7 +37,7 @@ class Exam extends Model
 
     public function ExamQuiz()
     {
-        return $this->hasMany(ExamQuizz::class);
+        return $this->hasMany(ExamQuiz::class)->orderBy('nomor', 'asc');
     }
 
     public function ExamUser()

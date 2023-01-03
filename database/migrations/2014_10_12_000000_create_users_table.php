@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('place_of_birth')->nullable();
             $table->enum('gender', ['L', 'P'])->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

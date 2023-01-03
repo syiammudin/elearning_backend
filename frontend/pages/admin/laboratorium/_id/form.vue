@@ -118,10 +118,11 @@ export default {
     },
   },
   computed: {
-    ...mapState(["categoryList", "Kelas"]),
+    ...mapState(["categoryList", "kelasList"]),
   },
   created() {
     this.$store.dispatch("fetchCategory");
+    this.$store.dispatch("fetchKelas");
   },
   data() {
     return {

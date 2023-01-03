@@ -54,10 +54,10 @@
                 filterable
               >
                 <el-option
-                  v-for="item in Kelas"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  v-for="item in kelasList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
                 >
                 </el-option>
               </el-select>
@@ -182,10 +182,11 @@ export default {
   layout: "adminLayout",
   mixins: [crud, plugin],
   computed: {
-    ...mapState(["categoryList", "Kelas"]),
+    ...mapState(["categoryList", "kelasList"]),
   },
   created() {
     this.$store.dispatch("fetchCategory");
+    this.$store.dispatch("fetchKelas");
   },
   data() {
     return {

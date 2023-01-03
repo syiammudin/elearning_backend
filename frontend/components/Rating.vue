@@ -36,8 +36,10 @@ export default {
     },
     rateVideo() {
       this.loading = true;
+      this.form.ratingable_id = this.data.id;
+      this.form.ratingable_type = this.data.class;
       this.$axios
-        .$put("api/RatingVideoContent/" + this.data.id, this.form)
+        .$post("api/rating", this.form)
         .then((r) => {
           this.$message({
             message: "Rating update",

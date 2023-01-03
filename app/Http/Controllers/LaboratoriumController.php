@@ -11,7 +11,7 @@ class LaboratoriumController extends Controller
 {
     public function index(Request $request)
     {
-        return Laboratorium::with('user')->paginate($request->pageSize);
+        return Laboratorium::with(['user', 'attachment'])->paginate($request->pageSize);
     }
 
     public function store(Request $request)

@@ -4,7 +4,7 @@
       <div slot="header">
         <el-row :gutter="20">
           <el-col :span="12" :offset="0">
-            <strong> Video Content </strong>
+            <strong> Laboratorium </strong>
           </el-col>
           <el-col :span="12" :offset="0" class="text-right">
             <el-button

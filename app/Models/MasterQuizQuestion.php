@@ -18,7 +18,20 @@ class MasterQuizQuestion extends Model
         'question',
         'choices',
         'correct_answer',
+        'mime',
+        'name',
+        'type',
+        'size',
+        'path'
     ];
+
+
+    protected $casts = [
+        'choices' => 'json'
+    ];
+
+    protected $appends = ['url'];
+
 
     public function User()
     {
@@ -30,10 +43,8 @@ class MasterQuizQuestion extends Model
         return $this->belongsTo(MasterQuiz::class);
     }
 
-    public static function booted()
+    public function getUrlAttribute()
     {
-        static::creating(function ($model) {
-            $model->user_id = auth()->id;
-        });
+        return env('APP_URL') . '/public/' . $this->path;
     }
 }

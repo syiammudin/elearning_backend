@@ -25,7 +25,7 @@
                 Laboratorium
               </b-nav-item>
               <b-nav-item href="#" @click="$router.push('/quiz')">
-                Quizz
+                Quiz
               </b-nav-item>
             </b-navbar-nav>
 

@@ -32,6 +32,6 @@ class Attachment extends Model
 
     public function getUrlAttribute()
     {
-        return url('public/' . $this->path);
+        return   env('APP_URL') . '/public/' . $this->path;
     }
 }

@@ -4,7 +4,7 @@
       <div slot="header">
         <el-row :gutter="20">
           <el-col :span="12" :offset="0">
-            <strong> Video Content </strong>
+            <strong> Quiz </strong>
           </el-col>
           <el-col :span="12" :offset="0" class="text-right">
             <el-button
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     editData(id) {
-      this.$router.push("/admin/laboratorium/" + id + "/form");
+      this.$router.push("/admin/quiz/" + id + "/form");
     },
   },
 };

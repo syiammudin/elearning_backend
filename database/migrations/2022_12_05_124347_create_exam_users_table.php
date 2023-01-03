@@ -14,7 +14,7 @@ class CreateExamUsersTable extends Migration
     public function up()
     {
         Schema::create('exam_users', function (Blueprint $table) {
-            $table->uuid('id')->nullable();
+            $table->uuid('id')->primary();
             $table->uuid('exam_id')->nullable();
             $table->uuid('user_id')->nullable();
             $table->timestamps();
