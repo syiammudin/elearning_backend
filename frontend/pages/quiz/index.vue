@@ -2,28 +2,51 @@
   <div>
     <el-card shadow="always" :body-style="{ padding: '20px' }">
       <div slot="header">
-        <span>New Content</span>
+        <div class="d-flex justify-content-between">
+          <span>Quiz</span>
+          <div class="p-1 text-right">
+            <el-input
+              placeholder="Search"
+              @change="getData"
+              v-model="keyword"
+              size="small"
+              clearable
+            >
+              <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click="getData"
+              ></el-button>
+            </el-input>
+          </div>
+        </div>
       </div>
       <!-- card body -->
 
       <div class="row">
-        <div class="col-md-3 mb-3" v-for="(d, index) in data.data" :key="index">
+        <div class="col-md-4 mb-3" v-for="(d, index) in data.data" :key="index">
           <el-card>
             <div>
               <span>
                 <strong>{{ d.subject }} </strong>
                 <br />
                 <br />
-                <el-button type="primary" size="small" @click="doExam(d)">
-                  Do Exam
-                </el-button>
               </span>
-              <hr />
-              <div class="bottom clearfix">
-                <time class="time" style="font-size: 10pt, sy">
-                  <i class="el-icon-time"></i> {{ dateFormat(d.created_at) }}
-                </time>
-              </div>
+            </div>
+            <div class="text-center">
+              <el-button
+                :type="d.status_quiz ? 'success' : 'primary'"
+                size="small"
+                @click="doExam(d)"
+              >
+                {{ d.status_quiz ? "Selesai" : "Kerjakan Soal" }}
+              </el-button>
+            </div>
+            <hr />
+            <div class="bottom clearfix">
+              <time class="time" style="font-size: 10pt">
+                <i class="el-icon-time"></i> {{ dateFormat(d.created_at) }}
+              </time>
             </div>
           </el-card>
         </div>
@@ -43,6 +66,7 @@ export default {
   data() {
     return {
       data: {},
+      keyword: "",
     };
   },
   mounted() {
@@ -50,15 +74,9 @@ export default {
   },
   methods: {
     doExam(data) {
-      this.$confirm("Yakin ingin mengerjakan Exam ?", "Perthatian", {
-        confirmButtonText: "Kerjakan",
-        cancelButtonText: "Cancel",
-        type: "success",
-      }).then((action) => {
-        this.$axios.$post("/api/exam", data).then((r) => {
-          console.log(r.data.id);
-          this.$router.push("quiz/" + r.data.id);
-        });
+      this.$axios.$post("/api/exam", data).then((r) => {
+        console.log(r.data.id);
+        this.$router.push("quiz/" + r.data.id);
       });
     },
     getData() {
@@ -66,6 +84,7 @@ export default {
         pageSize: 8,
         sort: "created_at",
         order: "desc",
+        keyword: this.keyword,
       };
       this.$axios.$get("api/masterQuiz", { params }).then((r) => {
         this.data = r;

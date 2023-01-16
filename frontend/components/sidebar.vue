@@ -35,12 +35,13 @@ export default {
           path: "/admin/laboratorium",
           icon: "el-icon-menu",
         },
-        // {
-        //   title: "Exam",
-        //   path: "/admin/exam",
-        //   icon: "el-icon-menu",
-        // },
+        {
+          title: "Data Exam",
+          path: "/admin/exam",
+          icon: "el-icon-menu",
+        },
         { title: "Quiz", path: "/admin/quiz", icon: "el-icon-menu" },
+        { title: "Siswa", path: "/admin/siswa", icon: "el-icon-menu" },
         { title: "User", path: "/admin/user", icon: "el-icon-user" },
         { title: "Category", path: "/admin/category", icon: "el-icon-user" },
         { title: "Kelas", path: "/admin/kelas", icon: "el-icon-user" },

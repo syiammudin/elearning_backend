@@ -20,8 +20,23 @@ class SearchBox extends Model
         'url',
     ];
 
+    protected $appends = ['modul'];
+
     public function searcable()
     {
         return $this->morphTo();
+    }
+
+    public function getModulAttribute()
+    {
+        if ($this->searcable_type == VideoContent::class) {
+            return 'Materi';
+        }
+        if ($this->searcable_type == MasterQuiz::class) {
+            return 'Quiz';
+        }
+        if ($this->searcable_type == Laboratorium::class) {
+            return 'Laboratorium';
+        }
     }
 }

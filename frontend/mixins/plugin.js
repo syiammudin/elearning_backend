@@ -34,5 +34,10 @@ export default {
           return format;
         }
       },
+      konvertMenit(data) {
+        const menit = data / 60;
+        const detik = data % 60;
+        return Math.floor(menit) + " Menit " + Math.floor(detik) + " Detik ";
+      },
   },
 };

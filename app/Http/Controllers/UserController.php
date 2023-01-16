@@ -11,8 +11,12 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        return User::paginate(10);
-        return User::orderBy($request->sort, $request->order == 'descending' ? 'desc' : 'asc')->paginate($request->pageSize);
+        $user = User::orderBy($request->sort, $request->order == 'descending' ? 'desc' : 'asc')
+            ->when($request->user == 'siswa', function ($q) {
+                return $q->where('role', User::SISWA);
+            });
+
+        return $user->paginate($request->pageSize);
     }
 
     public function store(UserRequest $request)

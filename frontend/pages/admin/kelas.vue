@@ -1,18 +1,18 @@
-<template>
+<template >
   <div>
     <el-card shadow="always" :body-style="{ padding: '20px' }">
       <div slot="header">
         <el-row :gutter="20">
           <el-col :span="12" :offset="0">
-            <strong> Kelas </strong>
+            <strong> User </strong>
           </el-col>
           <el-col :span="12" :offset="0" class="text-right">
             <el-button type="primary" size="small" @click="showForm = true">
-              <i class="el-icon-plus"></i> Add New Category
+              <i class="el-icon-plus"></i> Add New User
             </el-button>
             <el-input
               style="width: 200px"
-              v-model="filters.search"
+              v-model="filters.serach"
               placeholder="Search"
               size="small"
               clearable
@@ -27,17 +27,10 @@
         :default-sort="{ prop: sort, order: order }"
         :data="tableData.data"
         style="width: 100%"
-        v-loading="loading"
       >
         <el-table-column prop="name" label="Name" sortable />
-        <el-table-column prop="keterangan" label="keterangan" />
-        <el-table-column prop="status" label="Status">
-          <template slot-scope="scope">
-            <el-tag size="mini" :type="scope.row.status ? 'success' : 'danger'">
-              {{ scope.row.status ? "Active" : "Non Active" }}
-            </el-tag>
-          </template>
-        </el-table-column>
+        <el-table-column prop="email" label="Email" />
+        <el-table-column prop="role_name" label="Role" />
         <el-table-column prop="created_at" label="Created at">
           <template slot-scope="scope">
             {{ dateFormat(scope.row.created_at) }}
@@ -90,86 +83,30 @@
     <el-dialog
       title="Add User"
       :visible.sync="showForm"
-      width="30%"
+      width="50%"
       @close="closeForm"
     >
-      <el-form
-        :model="form"
-        ref="form"
-        :rules="rules"
-        label-width="100px"
-        :inline="false"
-        size="normal"
-      >
-        <el-form-item label="Name">
-          <el-input v-model="form.name"></el-input>
-          <div v-if="rules.name" class="text-danger">{{ rules.name[0] }}</div>
-        </el-form-item>
-        <el-form-item label="Keterangan">
-          <el-input
-            type="textarea"
-            :rows="2"
-            v-model="form.keterangan"
-            placeholder="keterangan"
-            :maxlength="-1"
-            :show-word-limit="false"
-            :autosize="{ minRows: 2, maxRows: 4 }"
-          >
-          </el-input>
-
-          <div v-if="rules.keterangan" class="text-danger">
-            {{ rules.keterangan[0] }}
-          </div>
-        </el-form-item>
-        <el-form-item label="Status">
-          <el-switch
-            v-model="form.status"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            active-text="Active"
-            inactive-text="Non Active"
-          >
-          </el-switch>
-
-          <div v-if="rules.status" class="text-danger">
-            {{ rules.status[0] }}
-          </div>
-        </el-form-item>
-        <el-form-item>
-          <el-button
-            type="primary"
-            @click="saveData"
-            :disable="loading == true"
-            v-loading.fullscreen.lock="loading"
-            >Save</el-button
-          >
-          <el-button @click="closeForm">Cancel</el-button>
-        </el-form-item>
-      </el-form>
+      <UserForm
+        :formData="form"
+        @close="closeForm"
+        @save="getData(), (showForm = false)"
+      />
     </el-dialog>
   </div>
 </template>
+
 <script>
 import crud from "../../mixins/crud";
 import plugin from "../../mixins/plugin";
+
 export default {
-  mixins: [crud, plugin],
+  mixins: [plugin, crud],
   layout: "adminLayout",
   data() {
     return {
-      url: "/api/kelas",
+      url: "/api/user",
     };
   },
-  methods: {
-    editData(item) {
-      if (item.status == 1) {
-        item.status = true;
-      } else {
-        item.status = false;
-      }
-      this.form = { ...item };
-      this.showForm = true;
-    },
-  },
+  methods: {},
 };
 </script>

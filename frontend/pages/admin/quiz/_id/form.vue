@@ -43,6 +43,23 @@
             {{ rules.description.join(", ") }}
           </div>
         </el-form-item>
+        <el-form-item label="Kelas">
+          <el-select
+            v-model="form.kelas"
+            placeholder="Kelas"
+            clearable
+            filterable
+            multiple
+          >
+            <el-option
+              v-for="item in kelasList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item
           label="Max Duration"
           :class="rules.max_duration ? 'is-error' : ''"

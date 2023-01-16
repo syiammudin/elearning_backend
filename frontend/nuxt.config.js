@@ -30,6 +30,7 @@ export default {
     '@/plugins/video-player',
     '@/plugins/Media',
     '@/plugins/CKEditor',
+    '@/plugins/vueCountdown',
     '@/plugins/youtube-player'
   ],
 

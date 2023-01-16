@@ -2,15 +2,20 @@
   <div class="mb-5">
     <el-divider direction="horizontal" content-position="left"></el-divider>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12 mb-3">
         <el-card shadow="always" :body-style="{ padding: '20px' }">
           <div slot="header">
             <h1>{{ data.subject }}</h1>
           </div>
-          <el-image :src="data.attachment.url" fit="fill" :lazy="true">
+          <el-image
+            style="float: left; margin: 5px; width: 50%"
+            :src="data.attachment.url"
+            fit="fill"
+            :lazy="true"
+          >
           </el-image>
 
-          <p v-html="data.description"></p>
+          <p v-html="description"></p>
         </el-card>
       </div>
       <div class="col-md-9">
@@ -62,7 +67,11 @@ export default {
         "&commentable_type=" +
         data.class
     );
-    return { data, comment };
+    const description = data.description.replace(
+      "img",
+      'img style="width:100%;"'
+    );
+    return { data, comment, description };
   },
   data() {
     return {
@@ -83,3 +92,10 @@ export default {
   },
 };
 </script>
+
+<style scope>
+.image_resized {
+  float: right !important;
+  margin: 5px;
+}
+</style>

@@ -11,7 +11,10 @@ class LaboratoriumController extends Controller
 {
     public function index(Request $request)
     {
-        return Laboratorium::with(['user', 'attachment'])->paginate($request->pageSize);
+        return Laboratorium::when($request->keyword, function ($q) use ($request) {
+            return $q->where('subject', 'like', '%' . $request->keyword . '%')
+                ->orWhere('description', 'like', '%' . $request->keyword . '%');
+        })->with(['user', 'attachment'])->paginate($request->pageSize);
     }
 
     public function store(Request $request)
@@ -28,7 +31,7 @@ class LaboratoriumController extends Controller
             $sb = [
                 'descryption' => $request->description,
                 'tag' => $datafix->category ? $datafix->category->name : $request->type,
-                'title' => $request->title,
+                'title' => $request->subject,
                 'url' => env('SANCTUM_STATEFUL_DOMAINS') . '/laboratorium/' . $data->id,
             ];
             $data->SearchBox()->create($sb);

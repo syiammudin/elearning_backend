@@ -1,9 +1,9 @@
 
 export const state = () => ({
   roleList: [
-    {value: 0, label: 'USER'},
+    {value: 0, label: 'SISWA'},
     {value: 10, label: 'ADMIN'},
-    {value: 99, label: 'SUPERADMIN'},
+    // {value: 99, label: 'SUPERADMIN'},
   ],
   kelasList: [],
   categoryList: [],

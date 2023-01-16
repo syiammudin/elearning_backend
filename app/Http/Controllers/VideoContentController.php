@@ -14,7 +14,12 @@ class VideoContentController extends Controller
 {
     public function index(Request $request)
     {
-        return VideoContent::with(['user', 'attachment', 'rating'])->orderBy($request->sort, $request->order == 'descending' ? 'desc' : 'asc')->paginate($request->pageSize);
+        return VideoContent::when($request->keyword, function ($q) use ($request) {
+            return $q->where('title', 'like', '%' . $request->keyword . '%')
+                ->orWhere('description', 'like', '%' . $request->keyword . '%');
+        })->with(['user', 'attachment', 'rating'])
+            ->orderBy($request->sort, $request->order == 'descending' ? 'desc' : 'asc')
+            ->paginate($request->pageSize);
     }
 
 

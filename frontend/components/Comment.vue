@@ -27,7 +27,10 @@
         <el-divider direction="horizontal" content-position="left"></el-divider>
         <div class="d-flex">
           <div class="p-2">
-            <el-avatar class="mt-2"> {{ c.user.initial_name }} </el-avatar>
+            <el-avatar class="mt-2">
+              <img v-if="c.user.photo" :src="c.user.url" alt="" />
+              <span v-else>{{ c.user.initial_name }}</span>
+            </el-avatar>
           </div>
           <div class="mr-auto p-2">
             <span class="title"> {{ c.user.name }} <br /> </span>

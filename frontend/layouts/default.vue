@@ -3,7 +3,7 @@
     <div style="background-color: #545c64">
       <div class="container">
         <b-navbar toggleable="lg" type="dark">
-          <b-navbar-brand href="#">
+          <b-navbar-brand href="#" @click="$router.push('/')">
             <img
               src="~/assets/logo.png"
               alt=""
@@ -32,9 +32,65 @@
             <!-- Right aligned nav items -->
 
             <form class="form-inline my-2 my-lg-0">
-              <el-button plain size="small">
-                <i class="el-icon-download"></i> Plain</el-button
+              <el-button
+                v-if="$auth.user.role_name == 'ADMIN'"
+                type="warning"
+                size="mini"
+                round
+                @click="$router.push('/admin/dashboard')"
               >
+                Admin Site
+              </el-button>
+              <el-popover
+                v-else
+                placement="bottom"
+                title="Account"
+                width="250"
+                trigger="click"
+              >
+                <div>
+                  <hr />
+                  <div class="text-center">
+                    <el-avatar
+                      icon="el-icon-user-solid"
+                      size="large"
+                      shape="circle"
+                      fit="fill"
+                      :src="$auth.user.url"
+                    >
+                    </el-avatar>
+                    <br />
+                    {{ $auth.user.name }}
+                  </div>
+                  <hr />
+                  <div class="d-flex justify-content-between">
+                    <div class="text-left">
+                      <el-button
+                        type="text"
+                        size="mini"
+                        icon="el-icon-user"
+                        @click="$router.push('./profile')"
+                      >
+                        Profile
+                      </el-button>
+                    </div>
+                    <div class="text-right">
+                      <el-button
+                        type="text"
+                        size="mini"
+                        icon="el-icon-switch-button"
+                        @click="logout"
+                      >
+                        Logout
+                      </el-button>
+                    </div>
+                  </div>
+                </div>
+                <el-avatar size="small" slot="reference">
+                  <img v-if="$auth.user.photo" :src="$auth.user.url" alt="" />
+                  <span v-else>{{ $auth.user.initial_name }}</span>
+                </el-avatar>
+              </el-popover>
             </form>
           </b-collapse>
         </b-navbar>

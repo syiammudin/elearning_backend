@@ -2,15 +2,38 @@
   <div>
     <el-card shadow="always" :body-style="{ padding: '20px' }">
       <div slot="header">
-        <span>New Content</span>
+        <div class="d-flex justify-content-between">
+          <span>Laboratorium</span>
+          <div class="p-1 text-right">
+            <el-input
+              placeholder="Search"
+              @change="getData"
+              v-model="keyword"
+              size="small"
+              clearable
+            >
+              <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click="getData"
+              ></el-button>
+            </el-input>
+          </div>
+        </div>
       </div>
       <!-- card body -->
 
       <div class="row">
         <div class="col-md-3 mb-3" v-for="(d, index) in data.data" :key="index">
           <el-card @click.native="$router.push('/laboratorium/' + d.id)">
-            <el-image :src="d.attachment.url" fit="fit" :lazy="true"></el-image>
-
+            <div class="text-center">
+              <el-image
+                :src="d.attachment.url"
+                fit="cover"
+                style="height: 130px"
+                :lazy="true"
+              ></el-image>
+            </div>
             <br />
             <el-rate v-model="d.rating_value" disabled> </el-rate>
             <hr />
@@ -42,6 +65,7 @@ export default {
   data() {
     return {
       data: {},
+      keyword: "",
     };
   },
   mounted() {
@@ -53,6 +77,7 @@ export default {
         pageSize: 8,
         sort: "created_at",
         order: "desc",
+        keyword: this.keyword,
       };
       this.$axios.$get("api/laboratorium", { params }).then((r) => {
         this.data = r;

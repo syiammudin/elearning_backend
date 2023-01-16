@@ -32,33 +32,28 @@
         :data="tableData.data"
         style="width: 100%"
         v-loading="loading"
+        @cell-dblclick="showData"
       >
-        <el-table-column prop="subject" label="Subject" sortable />
-        <el-table-column prop="user.name" label="Uploader" />
+        <el-table-column
+          prop="master_quiz.subject"
+          label="Subject Exam"
+          sortable
+        />
+        <el-table-column prop="user.name" label="User" sortable />
         <el-table-column prop="created_at" label="Created at">
           <template slot-scope="scope">
             {{ dateFormat(scope.row.created_at) }}
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="#" width="40">
+        <el-table-column prop="passed" label="Status">
           <template slot-scope="scope">
-            <div>
-              <el-dropdown>
-                <span class="el-dropdown-link">
-                  <i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item @click.native="deleteData(scope.row.id)">
-                    <i class="el-icon-delete text-danger"></i>
-                    Hapus</el-dropdown-item
-                  >
-                  <el-dropdown-item @click.native="editData(scope.row.id)">
-                    <i class="el-icon-edit text-success"></i>
-                    Edit</el-dropdown-item
-                  >
-                </el-dropdown-menu>
-              </el-dropdown>
-            </div>
+            <el-tag
+              :type="scope.row.passed ? 'success' : 'danger'"
+              size="small"
+              effect="dark"
+            >
+              {{ scope.row.passed ? "Lulus" : "Gagal" }}
+            </el-tag>
           </template>
         </el-table-column>
       </el-table>
@@ -83,6 +78,64 @@
       >
       </el-pagination>
     </el-card>
+
+    <el-dialog
+      title="Detail"
+      :visible.sync="showDetail"
+      width="30%"
+      v-if="showDetail == true"
+    >
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="2">Hasil Pengerjaan Exam {{ data.user.name }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Quiz</td>
+            <td>{{ data.total_quizzes }} Soal</td>
+          </tr>
+          <tr>
+            <td>Score Kelulusan</td>
+            <td>{{ data.passing_grade }}</td>
+          </tr>
+          <tr>
+            <td>Durasi Maximal Pengerjaan</td>
+            <td>{{ data.max_duration }} Menit</td>
+          </tr>
+          <tr>
+            <td>Waktu Pegerjaan</td>
+            <td>
+              {{ konvertMenit(data.max_duration * 60 - data.sisa_durasi) }}
+            </td>
+          </tr>
+          <tr>
+            <td>Jawaban Benar</td>
+            <td>
+              {{ data.exam_quiz.filter((f) => f.status == true).length }}
+              Soal
+            </td>
+          </tr>
+          <tr>
+            <td>Score</td>
+            <td>
+              {{ data.score }}
+            </td>
+          </tr>
+          <tr>
+            <td>Hasil</td>
+            <td>
+              <el-tag type="success" v-if="data.passed == true"> Lulus </el-tag>
+              <el-tag type="danger" v-else>Gagal</el-tag>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <span slot="footer">
+        <el-button @click="showDetail = false">close</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -94,9 +147,15 @@ export default {
   data() {
     return {
       url: "/api/exam",
+      data: {},
+      showDetail: false,
     };
   },
   methods: {
+    showData(item) {
+      this.data = { ...item };
+      this.showDetail = true;
+    },
     editData(id) {
       this.$router.push("/admin/exam/" + id + "/form");
     },

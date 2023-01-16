@@ -23,6 +23,9 @@ class Exam extends Model
         'passed',
         'status',
         'cuntdown_time',
+        'sisa_durasi',
+        'start_time',
+        'end_time',
     ];
 
     public function MasterQuiz()
@@ -43,5 +46,10 @@ class Exam extends Model
     public function ExamUser()
     {
         return $this->hasMany(ExamUser::class);
+    }
+
+    public function ExamSection()
+    {
+        return $this->hasMany(ExamSection::class);
     }
 }

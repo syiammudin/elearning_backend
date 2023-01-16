@@ -5,18 +5,38 @@ namespace App\Http\Controllers;
 use App\Models\MasterQuiz;
 use App\Models\MasterQuizQuestion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class MasterQuizController extends Controller
 {
     public function index(Request $request)
     {
-        $data = MasterQuiz::with(['User', 'MasterQuizQuestion'])->when($request->search, function ($q) use ($request) {
-            $q->where(function ($q) use ($request) {
-                $q->where('subject', 'like', "%{$request->search}%");
+
+        if (Auth::user()) {
+            # code...
+            $data = MasterQuiz::when($request->keyword, function ($q) use ($request) {
+                return $q->where('subject', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('description', 'like', '%' . $request->keyword . '%');
+            })->with(['User', 'MasterQuizQuestion'])->when($request->search, function ($q) use ($request) {
+                $q->where(function ($q) use ($request) {
+                    $q->where('subject', 'like', "%{$request->search}%");
+                });
             });
-        });
-        return $data->paginate();
+
+            if (auth()->user()->role_name != 'ADMIN') {
+                $data->whereJsonContains('kelas', auth()->user()->kelas);
+            }
+            return $data->paginate();
+        } else {
+            $data = MasterQuiz::with(['MasterQuizQuestion'])->when($request->search, function ($q) use ($request) {
+                $q->where(function ($q) use ($request) {
+                    $q->where('subject', 'like', "%{$request->search}%");
+                });
+            });
+
+            return $data->paginate();
+        }
     }
 
 
@@ -30,6 +50,15 @@ class MasterQuizController extends Controller
                     $data->MasterQuizQuestion()->create($value);
                 }
             }
+
+            $sb = [
+                'descryption' => $request->description,
+                'tag' => "$request->description $request->title $request->kelas_id",
+                'title' => $request->subject,
+                'url' => env('SANCTUM_STATEFUL_DOMAINS') . '/video/' . $data->id,
+            ];
+
+            $data->SearchBox()->create($sb);
 
             return $data;
         });

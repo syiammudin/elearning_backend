@@ -9,13 +9,21 @@
       :show-close="false"
     >
       <el-card shadow="always" :body-style="{ padding: '20px' }">
-        <div slot="header">
-          <span>
+        <div slot="header" class="d-flex justify-content-between">
+          <div>
             <h5>
               Number : {{ nomor }} of
               {{ data.exam_quiz.length }}
             </h5>
-          </span>
+          </div>
+          <div>
+            <vac :left-time="data.sisa_durasi * 1000">
+              <span slot="process" slot-scope="{ timeObj }">{{
+                `Timer: ${timeObj.m}:${timeObj.s}`
+              }}</span>
+              <span slot="finish">Finish</span>
+            </vac>
+          </div>
         </div>
 
         <div class="row">
@@ -89,7 +97,7 @@
         </div>
       </el-card>
       <span slot="footer">
-        <el-button @click="close">Simpan dan lanjut nanti</el-button>
+        <el-button @click="onClose">Simpan dan lanjut nanti</el-button>
         <el-button
           type="primary"
           size="default"
@@ -113,12 +121,34 @@ export default {
   },
   mounted() {
     window.addEventListener("beforeunload", this.onClose);
+    this.countDownTimer();
   },
   methods: {
+    countDownTimer() {
+      if (this.data.sisa_durasi > 0) {
+        setTimeout(() => {
+          this.data.sisa_durasi -= 1;
+          this.countDownTimer();
+        }, 1000);
+      } else {
+        this.finishCundown();
+      }
+    },
+    finishCundown() {
+      console.log("ok bisa jalan");
+      alert("selesai");
+    },
     onClose() {
-      this.$axios.$get("/api/updateTime/" + this.data.id).then((r) => {
-        console.log(r);
-      });
+      this.$axios
+        .$get(
+          "/api/updateTime/" +
+            this.data.id +
+            "?sisa_durasi=" +
+            this.data.sisa_durasi
+        )
+        .then((r) => {
+          this.close();
+        });
     },
     finish() {
       this.data.exam_quiz = this.data.exam_quiz.map((m) => {
@@ -131,7 +161,11 @@ export default {
         return m;
       });
 
-      this.$axios.$put("/api/exam/" + this.data.id, this.data).then((r) => {});
+      this.data.type = "finish";
+
+      this.$axios.$put("/api/exam/" + this.data.id, this.data).then((r) => {
+        this.close();
+      });
     },
     close() {
       this.$emit("close");

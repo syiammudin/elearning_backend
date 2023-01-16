@@ -10,6 +10,7 @@ use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\MasterQuizController;
 use App\Http\Controllers\MasterQuizQuestionController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\SearchBoxController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoContentController;
 use App\Models\Exam;
@@ -34,6 +35,11 @@ Route::get('test', function () {
     return 'testing';
 });
 
+Route::get('videoContentHomepage', [VideoContentController::class, 'index']);
+Route::get('laboratoriumHomepage', [LaboratoriumController::class, 'index']);
+Route::get('masterQuizHomepage', [MasterQuizController::class, 'index']);
+Route::get('searchBox', [SearchBoxController::class, 'index']);
+
 Route::post('login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
@@ -50,6 +56,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('videoContent', VideoContentController::class);
     Route::resource('laboratorium', LaboratoriumController::class);
     Route::resource('exam', ExamController::class);
+    Route::put('sectionExam/{id}', [ExamController::class, 'sectionExam']);
     Route::put('saveQuiz/{id}', [ExamController::class, 'saveQuiz']);
     Route::get('updateTime/{id}', [ExamController::class, 'updateTime']);
 

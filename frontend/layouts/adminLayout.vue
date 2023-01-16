@@ -2,6 +2,7 @@
   <el-container>
     <el-header class="d-flex" style="background-color: #545c64">
       <img
+        @click="$router.push('/')"
         class="mr-auto p-2"
         src="~/assets/logo.png"
         alt=""
@@ -58,7 +59,7 @@ export default {
       }
     },
     logout() {
-      this.$auth.logout().then(() => this.$router.push("/login"));
+      this.$auth.logout().then(() => this.$router.push("/"));
     },
   },
 };

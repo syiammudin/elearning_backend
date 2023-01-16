@@ -51,6 +51,7 @@ class User extends Authenticatable
     protected $appends = [
         'initial_name',
         'role_name',
+        'url'
     ];
 
 
@@ -76,7 +77,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    const USER               = 0;
+    const SISWA               = 0;
     const ADMIN              = 10;
     const SUPERADMIN         = 99;
 
@@ -91,7 +92,7 @@ class User extends Authenticatable
                 break;
 
             default:
-                return 'USER';
+                return 'SISWA';
                 break;
         }
     }
@@ -99,6 +100,12 @@ class User extends Authenticatable
     public function getRoleNameAttribute()
     {
         return $this->alias($this->role);
+    }
+
+
+    public function getUrlAttribute()
+    {
+        return   env('APP_URL') . '/public/' . $this->photo;
     }
 
     public function setPasswordAttribute($password)
