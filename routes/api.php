@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test', function () {
+Route::get('testing', function () {
     return 'testing';
 });
 
