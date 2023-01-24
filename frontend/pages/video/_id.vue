@@ -5,7 +5,6 @@
         v-if="data.type == 'Upload'"
         :kind="'video'"
         :src="data.url"
-        :poster="data.attachment.url"
         :autoplay="false"
         :controls="true"
         :loop="false"

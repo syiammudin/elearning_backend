@@ -88,13 +88,7 @@ import { mapState } from "vuex";
 export default {
   layout: "adminLayout",
   mixins: [crud, plugin],
-  components: {
-    "ckeditor-nuxt": () => {
-      if (process.client) {
-        return import("@blowstack/ckeditor-nuxt");
-      }
-    },
-  },
+
   computed: {
     ...mapState(["categoryList", "kelasList"]),
   },

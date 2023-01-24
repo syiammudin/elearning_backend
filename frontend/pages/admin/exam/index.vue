@@ -7,13 +7,13 @@
             <strong> Exam </strong>
           </el-col>
           <el-col :span="12" :offset="0" class="text-right">
-            <el-button
+            <!-- <el-button
               type="primary"
               size="small"
               @click="$router.push('exam/0/form')"
             >
               <i class="el-icon-plus"></i> Add New
-            </el-button>
+            </el-button> -->
             <el-input
               style="width: 200px"
               v-model="filters.serach"

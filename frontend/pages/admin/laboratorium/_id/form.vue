@@ -48,7 +48,11 @@
           label="Description"
           :class="rules.description ? 'is-error' : ''"
         >
-          <ckeditor-nuxt v-model="form.description" :config="editorConfig" />
+          <!-- <ckeditor-nuxt v-model="form.description" :config="editorConfig" /> -->
+          <ckeditor
+            v-model="form.description"
+            :config="editorConfig"
+          ></ckeditor>
           <div class="el-form-item__error" v-if="rules.description">
             {{ rules.description.join(", ") }}
           </div>
@@ -110,13 +114,7 @@ import { mapState } from "vuex";
 export default {
   layout: "adminLayout",
   mixins: [crud, plugin],
-  components: {
-    "ckeditor-nuxt": () => {
-      if (process.client) {
-        return import("@blowstack/ckeditor-nuxt");
-      }
-    },
-  },
+
   computed: {
     ...mapState(["categoryList", "kelasList"]),
   },
@@ -130,13 +128,20 @@ export default {
       showAttachment: false,
       showVideo: false,
       editorConfig: {
-        plugin: ["ImageStyle:full"],
-        removePlugins: ["Title"],
-        simpleUpload: {
-          uploadUrl: `${this.$axios.defaults.baseURL}/api/uploadCkEditor`,
-          withCredentials: true,
-        },
+        height: 500,
+        filebrowserBrowseUrl: `${this.$axios.defaults.baseURL}/api/uploadCkEditor`,
+        filebrowserImageBrowseUrl: `${this.$axios.defaults.baseURL}/api/uploadCkEditor?type=Images`,
+        filebrowserUploadUrl: `${this.$axios.defaults.baseURL}/api/uploadCkEditor`,
+        filebrowserImageUploadUrl: `${this.$axios.defaults.baseURL}/api/uploadCkEditor?type=Images`,
       },
+      // editorConfig: {
+      //   plugin: ["ImageStyle:full"],
+      //   removePlugins: ["Title"],
+      //   simpleUpload: {
+      //     uploadUrl: `${this.$axios.defaults.baseURL}/api/uploadCkEditor`,
+      //     withCredentials: true,
+      //   },
+      // },
     };
   },
   mounted() {

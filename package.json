@@ -18,6 +18,7 @@
     },
     "dependencies": {
         "@blowstack/ckeditor-nuxt": "^0.6.0",
-        "@chenfengyuan/vue-countdown": "^2.1.0"
+        "@chenfengyuan/vue-countdown": "^2.1.0",
+        "ckeditor4full-vue": "^1.0.0"
     }
 }

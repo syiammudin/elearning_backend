@@ -32,7 +32,9 @@
                 fit="cover"
                 style="height: 130px"
                 :lazy="true"
-              ></el-image>
+              >
+              </el-image>
+              <img class="image-play" src="~/assets/play3.png" alt="" />
             </div>
 
             <br />
@@ -86,3 +88,21 @@ export default {
   },
 };
 </script>
+
+<style>
+.image-play {
+  position: absolute;
+  top: 30px;
+  left: 80px;
+  width: 100px;
+  opacity: 0.5;
+  transform: translate(15%, 5%);
+}
+.image-play:hover {
+  opacity: 1;
+  width: 110px;
+  top: 25px;
+  left: 75px;
+  transform: translate(15%, 5%);
+}
+</style>

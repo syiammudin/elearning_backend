@@ -93,6 +93,6 @@ class AttachmentController extends Controller
 
         $path = $request->file('upload')->move('CkEditor/',  $fileName);
 
-        return ['url' => url('CkEditor/' . $fileName)];
+        return ['uploaded' => 1, 'url' => url('CkEditor/' . $fileName), 'fileName' => $fileName];
     }
 }

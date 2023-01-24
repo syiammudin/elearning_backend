@@ -24,6 +24,10 @@ class MasterQuizController extends Controller
                 });
             });
 
+            if ($request->id) {
+                $data->where('id', $request->id);
+            }
+
             if (auth()->user()->role_name != 'ADMIN') {
                 $data->whereJsonContains('kelas', auth()->user()->kelas);
             }

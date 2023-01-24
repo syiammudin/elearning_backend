@@ -26,7 +26,12 @@
               <tr v-if="data.length == 0">
                 <td class="text-center">No data found</td>
               </tr>
-              <tr v-else v-for="(d, i) in data" :key="i">
+              <tr
+                v-else
+                v-for="(d, i) in data"
+                :key="i"
+                @click="$router.push(d.url)"
+              >
                 <td
                   scope="row"
                   class="text-nowrap text-center"

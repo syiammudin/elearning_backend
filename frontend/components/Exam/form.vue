@@ -71,14 +71,14 @@
               </div>
               <div>
                 <el-button
-                  v-for="(item, index) in data.exam_quiz.length"
+                  v-for="(item, index) in data.exam_quiz"
                   :key="index"
-                  type="icon"
+                  :type="item.user_answer == null ? '' : 'success'"
                   size="mini"
-                  :class="nomor == item ? 'btn-active' : ''"
-                  @click="paging(item)"
+                  :class="nomor == item.nomor ? 'btn-active' : ''"
+                  @click="paging(item.nomor)"
                 >
-                  {{ item }}
+                  {{ item.nomor }}
                 </el-button>
               </div>
               <div>

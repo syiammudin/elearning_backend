@@ -16,7 +16,12 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
-    ]
+    ], 
+    script: [
+      {
+        src: "http://localhost:8000/ckeditor/ckeditor.js",
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

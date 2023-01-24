@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('testing', function () {
     return 'testing';
 });
+Route::post('uploadCkEditor', [AttachmentController::class, 'uploadCkEditor']);
 
 Route::get('videoContentHomepage', [VideoContentController::class, 'index']);
 Route::get('laboratoriumHomepage', [LaboratoriumController::class, 'index']);
@@ -48,7 +49,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('category', CategoryController::class);
     Route::resource('kelas', KelasController::class);
     Route::resource('attachment', AttachmentController::class);
-    Route::post('uploadCkEditor', [AttachmentController::class, 'uploadCkEditor']);
     Route::resource('comment', CommentController::class);
     Route::resource('rating', RatingController::class);
     Route::put('RatingVideoContent/{id}', [VideoContentController::class, 'RatingVideoContent']);

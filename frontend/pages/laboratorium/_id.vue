@@ -67,10 +67,7 @@ export default {
         "&commentable_type=" +
         data.class
     );
-    const description = data.description.replace(
-      "img",
-      'img style="width:100%;"'
-    );
+    const description = data.description;
     return { data, comment, description };
   },
   data() {
@@ -94,8 +91,8 @@ export default {
 </script>
 
 <style scope>
-.image_resized {
+/* .image_resized {
   float: right !important;
   margin: 5px;
-}
+} */
 </style>
